@@ -1,29 +1,44 @@
 #!/usr/bin/python3
-'''Given a pile of coins of different values,
-    determine the fewest number of coins needed to meet
-    a given amount total.
-'''
+"""
+Making Change
+"""
 import sys
 
 
 def makeChange(coins, total):
-    '''
-    Return: fewest number of coins needed to meet total
-    If total is 0 or less, return 0
-    If total cannot be met by any number of coins you have, return -1
-    '''
+    """
+    Given a total a pile of coins of different totalalues,
+    determine the fewest number of coins needed to meet a
+    gitotalen amount total.
+    """
     if total <= 0:
         return 0
-    table = [sys.maxsize for i in range(total + 1)]
+    res = minCoins(coins, len(coins), total)
+    if res == 0:
+        return -1
+    return res
+
+
+def minCoins(coins, m, total):
+    """
+    find the minimum coins
+    """
+    table = [0 for i in range(total + 1)]
     table[0] = 0
-    m = len(coins)
+
     for i in range(1, total + 1):
+        table[i] = sys.maxsize
+
+    for i in range(1, total + 1):
+
         for j in range(m):
-            if coins[j] <= i:
-                subres = table[i - coins[j]]
-                if subres != sys.maxsize and subres + 1 < table[i]:
-                    table[i] = subres + 1
+            if (coins[j] <= i):
+                sub_res = table[i - coins[j]]
+                if (sub_res != sys.maxsize and
+                        sub_res + 1 < table[i]):
+                    table[i] = sub_res + 1
 
     if table[total] == sys.maxsize:
         return -1
+
     return table[total]
